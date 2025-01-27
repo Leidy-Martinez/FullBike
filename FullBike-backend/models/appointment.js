@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Appointment.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
     customerId: DataTypes.INTEGER,
     mechanicId: DataTypes.INTEGER,
     serviceId: DataTypes.INTEGER,
