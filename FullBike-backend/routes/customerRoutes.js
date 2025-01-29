@@ -25,9 +25,6 @@ router.patch('/:id', validateId, customerController.updateCustomer);
 router.delete('/:id', validateId, customerController.deleteCustomer);
 
 // // Search customers
-// router.get('/search', 
-//     auth, 
-//     customerController.searchCustomers
-// );
+// router.get('/search', auth, customerController.searchCustomers);
 
 module.exports = router;
