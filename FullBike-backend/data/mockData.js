@@ -1,5 +1,5 @@
 // Mock customer data (instead of using a database)
-const mockUsers = [
+const mockData = [
     { 
         id: 1, 
         name: 'John Doe', 
@@ -65,4 +65,4 @@ const mockUsers = [
     },
 ];
 
-module.exports = mockUsers;
+module.exports = mockData;

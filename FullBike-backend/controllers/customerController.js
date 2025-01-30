@@ -1,4 +1,4 @@
-const mockUsers = require('../data/mockUsers');
+const mockUsers = require('../data/mockData');
 
 const customerController = {
     // Mock login
@@ -16,7 +16,7 @@ const customerController = {
         });
     },
 
-    // Mock create customer
+    // Mock create customer/signup
     createCustomer(req, res) {
         const { name, email, phoneNumber, password } = req.body;
 

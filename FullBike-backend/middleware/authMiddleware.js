@@ -1,5 +1,5 @@
 // middleware/auth.js
-const mockUsers = require('../data/mockUsers');
+const mockData = require('../data/mockData');
 
 // Mock authentication middleware
 const authenticate = (req, res, next) => {
@@ -12,7 +12,7 @@ const authenticate = (req, res, next) => {
     }
 
     // Find user by email
-    const user = mockUsers.find(u => u.email === email);
+    const user = mockData.find(u => u.email === email);
 
     // If user doesn't exist
     if (!user) {
