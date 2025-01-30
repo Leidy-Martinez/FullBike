@@ -1,21 +1,33 @@
 .header {
     position: fixed;
     top: 0;
-    left: 0;
+    left: 100;
     width: 100%;
+    background-color: rgba(26, 26, 26, 0.9);
     padding: 1rem;
-    z-index: 1000;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
 }
 
 .nav-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     max-width: 800px;
     margin: 0 auto;
     width: 100%;
+}
+
+.nav-container.main {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-container.auth {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
 }
 
 .nav-button {
