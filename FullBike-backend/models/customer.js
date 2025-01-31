@@ -46,7 +46,7 @@ const Customer = sequelize.define("Customer",  {
 
 // Define associations
 Customer.associate = (models) => {
-    Customer.hasMany(models.appointment, { foreignKey: 'customerId' });
+    Customer.hasMany(models.Appointment, { foreignKey: 'customerId' });
 };
 
 module.exports = Customer;

@@ -1,5 +1,4 @@
-const { Customer } = require('../models');
-
+// Initiate mock data for the Customer table
 const mockData = [
     {
         id: 1,

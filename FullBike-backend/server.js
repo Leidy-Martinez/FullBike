@@ -1,21 +1,25 @@
 require("dotenv").config();
 const express = require("express");
-const { sequelize, connectDB } = require("./config/database");
+const { connectDB } = require("./config/database");
 const customerRoutes = require("./routes/customerRoutes");
 
 const app = express();
 app.use(express.json());
 
-// Connect to database
-connectDB();
+// Connect to database and sync models
+const startServer = async () => {
+    try {
+        await connectDB();
+        
+        // Routes
+        app.use("/customers", customerRoutes);
+        
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    } catch (error) {
+        console.error("Server startup failed:", error);
+        process.exit(1);
+    }
+};
 
-// Sync models (without deleting existing data)
-sequelize.sync({ alter: true })
-    .then(() => console.log("✅ Database synced"))
-    .catch(err => console.error("❌ Error syncing database:", err));
-
-// Routes
-app.use("/customers", customerRoutes);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+startServer();

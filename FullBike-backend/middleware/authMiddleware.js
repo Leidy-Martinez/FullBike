@@ -1,8 +1,7 @@
-// middleware/auth.js
-const mockData = require('../data/mockData');
+const { Customer } = require('../models');
 
 // Mock authentication middleware
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -11,26 +10,35 @@ const authenticate = (req, res, next) => {
         });
     }
 
-    // Find user by email
-    const user = mockData.find(u => u.email === email);
+    try {
+        // Find user in database
+        const user = await Customer.findOne({ 
+            where: { email } 
+        });
 
-    // If user doesn't exist
-    if (!user) {
-        return res.status(400).json({
-            message: 'User not found'
+        // Check if user exists
+        if (!user) {
+            return res.status(401).json({
+                message: 'Invalid credentials'
+            });
+        }
+
+        // Verify password
+        if (user.password !== password) {
+            return res.status(401).json({
+                message: 'Invalid credentials'
+            });
+        }
+
+        // Attach user to request
+        req.user = user;
+        next();
+    } catch (error) {
+        console.error('Authentication error:', error);
+        return res.status(500).json({
+            message: 'Authentication failed'
         });
     }
-
-    // Check if the password matches
-    if (user.password !== password) {
-        return res.status(400).json({
-            message: 'Invalid password'
-        });
-    }
-
-    // If authentication is successful, attach user data to the request
-    req.user = user;
-    next();
 };
 
 module.exports = authenticate;

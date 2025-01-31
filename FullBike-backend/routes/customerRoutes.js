@@ -4,11 +4,11 @@ const customerController = require('../controllers/customerController');
 const auth = require('../middleware/authMiddleware');
 const { validateId, validateCustomer } = require('../middleware/validateMiddleware');
 
-// Get all customers
-router.get('/', customerController.getAllCustomers);
-
 // Create new customer
 router.post('/', validateCustomer, customerController.createCustomer);
+
+// Get all customers
+router.get('/', customerController.getAllCustomers);
 
 // Login customer
 router.post('/login', auth, customerController.loginCustomer);

@@ -1,25 +1,26 @@
-const fs = require("fs");
-const path = require("path");
-const { sequelize } = require("../config/database");
-const basename = path.basename(__filename);
-const models = {};
+const { sequelize } = require('../config/database');
+const { Sequelize } = require('sequelize');
 
-// Import all models dynamically
-fs.readdirSync(__dirname)
-  .filter((file) => file !== basename && file.endsWith(".js"))
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file));
-    models[model.name] = model;
-  });
+// Import models (without invoking)
+const Customer = require('./customer');
+const Mechanic = require('./mechanic');
+const Service = require('./service');
+const Appointment = require('./appointment');
 
-// Associate models after all have been loaded
-Object.keys(models).forEach((modelName) => {
-  if (models[modelName].associate) {
-    models[modelName].associate(models);
+const db = {
+  Customer,
+  Mechanic,
+  Service,
+  Appointment,
+  sequelize,
+  Sequelize,
+};
+
+// Initialize associations
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
   }
 });
 
-models.sequelize = sequelize;
-models.Sequelize = Sequelize;
-
-module.exports = models;
+module.exports = db;

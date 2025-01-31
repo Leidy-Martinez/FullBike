@@ -33,7 +33,10 @@ const loginCustomer = async (req, res) => {
         if (!customer) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
-        res.status(200).json(customer);
+        res.status(200).json({
+            message: "Login successful",
+            // customer: customer
+        });
     } catch (error) {
         res.status(500).json({ error: "Login failed" });
     }
@@ -77,7 +80,7 @@ const deleteCustomer = async (req, res) => {
             return res.status(404).json({ error: "Customer not found" });
         }
         await customer.destroy();
-        res.status(204).send();
+        res.status(200).json({ message: "Customer deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: "Failed to delete customer" });
     }
