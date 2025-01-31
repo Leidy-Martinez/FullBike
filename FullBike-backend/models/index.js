@@ -1,59 +1,25 @@
-
-'use strict';
-
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
+const fs = require("fs");
+const path = require("path");
+const { sequelize } = require("../config/database");
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
-const db = {};
+const models = {};
 
-let sequelize;
-if (config.url) {
-  sequelize = new Sequelize(process.env.DB_URI, config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+// Import all models dynamically
+fs.readdirSync(__dirname)
+  .filter((file) => file !== basename && file.endsWith(".js"))
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file));
+    models[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+// Associate models after all have been loaded
+Object.keys(models).forEach((modelName) => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
   }
 });
 
-// Initialize associations
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-// Test database connection
-sequelize.authenticate()
-  .then(() => console.log('Database connected successfully'))
-  .catch(err => console.error('Unable to connect to database:', err));
-
-
-module.exports = db;
-
-
+module.exports = models;

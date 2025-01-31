@@ -6,7 +6,7 @@ import './styles/App.css';
 
 
 function App() {
-  const [setMockData] = useState([]);
+  const [mockData, setMockData] = useState([]);
 
   // Fetch customers from the backend
   useEffect(() => {
@@ -18,7 +18,7 @@ function App() {
       .catch((error) => {
         console.error("API Error:", error);
       });
-  }, [setMockData]);
+  }, []);
   
   // Handle adding a new Customer/signup
   const addNewCustomer = async (customerData) => {
@@ -32,9 +32,21 @@ function App() {
     }
   };
 
+  //Handle Login
+  const handleLogin = async (loginData) => {
+    try {
+        const response = await api.post('/login', loginData);
+        console.log('Login successful:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
+  };
+
   return (
     <div className="app-container">
-      <Header onAddCustomer={addNewCustomer} /> 
+      <Header onAddCustomer={addNewCustomer} onLogin={handleLogin} /> 
       <section className='main-content'>
         
       </section>

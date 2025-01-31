@@ -1,114 +1,93 @@
-const mockUsers = require('../data/mockData');
+const Customer = require("../models/customer");
 
-const customerController = {
-    // Mock login
-    loginCustomer(req, res) {
-        // If the authenticate middleware passes, this code will be executed
-        const user = req.user;
-
-        res.status(200).json({
-            message: 'Login successful',
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email
-            }
-        });
-    },
-
-    // Mock create customer/signup
-    createCustomer(req, res) {
-        const { name, email, phoneNumber, password } = req.body;
-
-        if (!name || !email || !phoneNumber|| !password) {
-            return res.status(400).json({
-                message: 'Name, email, phone number and password are required'
-            });
-        }
-
-        const existingUser = mockUsers.find(u => u.email === email);
-        if (existingUser) {
-            return res.status(400).json({
-                message: 'User with this email already exists'
-            });
-        }
-
-        // Create mock user and add to the list
-        const newUser = { id: mockUsers.length + 1, name, email, phoneNumber, password };
-        mockUsers.push(newUser);
-
-        res.status(201).json({
-            message: 'User created successfully',
-            user: newUser
-        });
-    },
-    
-    getAllCustomers( _, res) {
-        res.status(200).json({
-            customers: mockUsers
-        });
-    },
-
-    getCustomerById(req, res) {
-        const id = parseInt(req.params.id);
-        const user = mockUsers.find(u => u.id === id);
-
-        if (!user) {
-            return res.status(404).json({
-                message: 'ID not found'
-            });
-        }
-
-        res.status(200).json({
-            user
-        });
-    },
-
-    updateCustomer(req, res) {
-        const id = parseInt(req.params.id);
-        const { name, email, phoneNumber, password } = req.body;
-
-        if (!name || !email || !phoneNumber || !password) {
-            return res.status(400).json({
-                message: 'Name, email, phone number and password are required'
-            });
-        }
-
-        const user = mockUsers.find(u => u.id === id);
-        if (!user) {
-            return res.status(404).json({
-                message: 'ID not found'
-            });
-        }
-
-        user.name = name;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.password = password;
-
-        res.status(200).json({
-            message: 'User updated successfully',
-            user
-        });
-    },
-
-    deleteCustomer(req, res) {
-        const id = parseInt(req.params.id);
-        const userIndex = mockUsers.findIndex(u => u.id === id);
-
-        if (userIndex === -1) {
-            return res.status(404).json({
-                message: 'ID not found'
-            });
-        }
-
-        mockUsers.splice(userIndex, 1);
-
-        res.status(200).json({
-            message: 'User deleted successfully'
-        });
+// Get all customers
+const getAllCustomers = async (req, res) => {
+    try {
+        const customers = await Customer.findAll();
+        res.status(200).json(customers);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch customers" });
     }
-
 };
 
-module.exports = customerController;
+// Create new customer-signup
+const createCustomer = async (req, res) => {
+    const { name, email, password, phoneNumber } = req.body;
+    try {
+        const existingCustomer = await Customer.findOne({ where: { email } });
+        if (existingCustomer) {
+            return res.status(400).json({ error: "Email already exists" });
+        }
+        const customer = await Customer.create({ name, email, password, phoneNumber });
+        res.status(201).json(customer);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to create customer" });
+    }
+};
+
+// Login customer
+const loginCustomer = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const customer = await Customer.findOne({ where: { email, password } });
+        if (!customer) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+        res.status(200).json(customer);
+    } catch (error) {
+        res.status(500).json({ error: "Login failed" });
+    }
+};
+
+// Get customer by ID 
+const getCustomerById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const customer = await Customer.findByPk(id);
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+        res.status(200).json(customer);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch customer" });
+    }
+};
+
+// Update customer
+const updateCustomer = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const customer = await Customer.findByPk(id);
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+        await customer.update(req.body);
+        res.status(200).json(customer);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update customer" });
+    }
+};
+
+// Delete customer
+const deleteCustomer = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const customer = await Customer.findByPk(id);
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+        await customer.destroy();
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete customer" });
+    }
+};
+
+module.exports = {
+    getAllCustomers,
+    createCustomer,
+    loginCustomer,
+    getCustomerById,
+    updateCustomer,
+    deleteCustomer
+};

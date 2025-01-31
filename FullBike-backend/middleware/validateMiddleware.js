@@ -21,9 +21,10 @@ const validateCustomer = (req, res, next) => {
     const schema = Joi.object({
         name: Joi.string().required().min(2).max(50).trim(),
         email: Joi.string().email().required().lowercase().trim(),
-        phoneNumber: Joi.string().required().pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/).messages({
-            'string.pattern.base': 'Phone number must be in format (XXX) XXX-XXXX'
-        }),
+        // phoneNumber: Joi.string().required().pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/).messages({
+        //     'string.pattern.base': 'Phone number must be in format (XXX) XXX-XXXX'
+        // }),
+        phoneNumber: Joi.string().required().min(10).max(15).trim(),
         password: Joi.string().required().min(6).max(50).trim()
     });
 

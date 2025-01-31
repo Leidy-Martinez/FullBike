@@ -1,54 +1,52 @@
-'use strict';
-const { Model } = require('sequelize');
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../config/database");
 
-module.exports = (sequelize, DataTypes) => {
-  class Customer extends Model {
-    static associate(models) {
-      Customer.hasMany(models.Appointment, { foreignKey: 'customerId' });
-    }
-  }
-  
-  Customer.init({
+const Customer = sequelize.define("Customer",  {
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [2, 50]
+        }
     },
     email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-      }
-    },
-    phoneNumber: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true
+        }
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [6, 100]
+        }
+    },
+    phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     }
-  }, {
-    sequelize,
-    modelName: 'Customer',
-    tableName: 'customers'
-  });
+}, {
+    tableName: 'customers',
+    timestamps: true
+});
 
-  return Customer;
+// Define associations
+Customer.associate = (models) => {
+    Customer.hasMany(models.appointment, { foreignKey: 'customerId' });
 };
+
+module.exports = Customer;
