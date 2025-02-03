@@ -10,27 +10,16 @@ const Service = sequelize.define("Service", {
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            len: [2, 100]
-        }
+        allowNull: false
     },
     description: {
         type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        allowNull: false
     },
     price: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-            isDecimal: true,
-            min: 0
-        }
-    },
+        allowNull: false
+    }
 }, {
     tableName: 'services',
     timestamps: true

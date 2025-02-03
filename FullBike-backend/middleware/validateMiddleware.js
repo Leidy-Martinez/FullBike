@@ -38,7 +38,77 @@ const validateCustomer = (req, res, next) => {
     next();
 };
 
+const validateMechanic = (req, res, next) => {
+    const schema = Joi.object({
+        name: Joi.string().required().min(2).max(50)
+            .messages({
+                'string.empty': 'Name is required',
+                'string.min': 'Name must be at least 2 characters',
+                'string.max': 'Name cannot exceed 50 characters'
+            }),
+
+        email: Joi.string().required().email()
+            .messages({
+                'string.empty': 'Email is required',
+                'string.email': 'Please provide a valid email'
+            }),
+
+        phoneNumber: Joi.string().required()
+            // .pattern(/^\+?[\d\s-]+$/)
+            .messages({
+                'string.empty': 'Phone number is required',
+                'string.pattern.base': 'Please provide a valid phone number'
+            }),
+
+        availability: Joi.string().valid('available', 'unavailable')
+            .default('available')
+            .messages({
+                'any.only': 'Availability must be either available or unavailable'
+            })
+    });
+
+    const { error } = schema.validate(req.body);
+    
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message
+        });
+    }
+
+    next();
+};
+
+const validateService = async (req, res, next) => {
+    const serviceId = req.params.id;
+    if (!Number.isInteger(parseInt(serviceId))) {
+        return res.status(400).json({ message: "Invalid service ID format" });
+    }
+    next();
+};
+
+const validateAppointment = async (req, res, next) => {
+    const schema = Joi.object({
+        // customerId: Joi.number().integer().positive().required(),
+        // mechanicId: Joi.number().integer().positive().required(),
+        serviceId: Joi.number().integer().positive().required(),
+        appointmentDate: Joi.date().required(),
+    });
+
+    const { error } = schema.validate(req.body);
+    
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message
+        });
+    }
+
+    next();
+}
+
 module.exports = { 
     validateId,
-    validateCustomer 
+    validateCustomer,
+    validateMechanic,
+    validateService,
+    validateAppointment
 };

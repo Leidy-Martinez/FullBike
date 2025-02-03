@@ -16,14 +16,14 @@ const Appointment = sequelize.define("Appointment", {
             key: 'id'
         }
     },
-    mechanicId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'mechanics',
-            key: 'id'
-        }
-    },
+    // mechanicId: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     references: {
+    //         model: 'mechanics',
+    //         key: 'id'
+    //     }
+    // },
     serviceId: {  
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -44,11 +44,11 @@ const Appointment = sequelize.define("Appointment", {
             }
         }
     },
-    status: {
-        type: DataTypes.ENUM('pending', 'confirmed', 'completed', 'cancelled'),
-        defaultValue: 'pending',
-        allowNull: false
-    }
+    // status: {
+    //     type: DataTypes.ENUM('pending', 'confirmed', 'completed', 'cancelled'),
+    //     defaultValue: 'pending',
+    //     allowNull: false
+    // }
 }, {
     tableName: 'appointments',
     timestamps: true

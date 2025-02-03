@@ -1,4 +1,4 @@
-const Customer = require("../models/customer");
+const { Customer, Service, Appointment} = require("../models");
 
 // Get all customers
 const getAllCustomers = async (req, res) => {
@@ -86,11 +86,57 @@ const deleteCustomer = async (req, res) => {
     }
 };
 
+// Selected Service (Only One)
+const selectOneService = async (req, res) => {
+    const { id } = req.params;
+    const { serviceId } = req.body;
+
+    try {
+        // 1. Find customer
+        const customer = await Customer.findByPk(id);
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+
+        // 2. Check if service exists
+        const service = await Service.findByPk(serviceId);
+        if (!service) {
+            return res.status(404).json({ error: "Service not found" });
+        }
+
+        // 3. Check if customer already has a service selected
+        const existingService = await customer.getServices();
+        if (existingService.length > 0) {
+            return res.status(400).json({ 
+                error: "Customer already has a service selected" 
+            });
+        }
+
+        // 4. Set the selected service for customer
+        
+        const selectedService = await customer.createService({
+            attributes: ['id', 'name', 'description', 'price']
+        });
+
+        res.status(200).json({
+            message: "Service selected successfully",
+            service: selectedService[0]
+        });
+
+    } catch (error) {
+        res.status(500).json({ 
+            error: "Failed to select service",
+            details: error.message 
+        });
+    }
+};
+
 module.exports = {
     getAllCustomers,
     createCustomer,
     loginCustomer,
     getCustomerById,
     updateCustomer,
-    deleteCustomer
+    deleteCustomer,
+    selectOneService
 };

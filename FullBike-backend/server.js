@@ -1,25 +1,43 @@
 require("dotenv").config();
-const express = require("express");
-const { connectDB } = require("./config/database");
-const customerRoutes = require("./routes/customerRoutes");
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const { connectDB } = require('./config/database');
+const routes = require('./routes');
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+// Middleware
+app.use(morgan('dev')); // Add logging
+app.use(cors());
 app.use(express.json());
 
-// Connect to database and sync models
-const startServer = async () => {
+// Routes
+app.use('/', routes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: err.message });
+});
+
+// Start server
+async function startServer() {
     try {
         await connectDB();
-        
-        // Routes
-        app.use("/customers", customerRoutes);
-        
-        const PORT = process.env.PORT || 3000;
-        app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+        // Sync models with database
+        const { sequelize } = require('./config/database');
+        await sequelize.sync({ alter: true });
+        console.log('Database synced');
+
+        app.listen(port, () => {
+            console.log(`Server is running on http://localhost:${port}`);
+        });
     } catch (error) {
-        console.error("Server startup failed:", error);
+        console.error('Failed to start server:', error);
         process.exit(1);
     }
-};
+}
 
 startServer();

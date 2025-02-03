@@ -4,31 +4,34 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import './styles/App.css';
 
-
 function App() {
-  const [mockData, setMockData] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [error, setError] = useState(null);
 
-  // Fetch customers from the backend
+  // Fetch customers from database
   useEffect(() => {
     api.get('/customers')
       .then((response) => {
         console.log('Customers loaded:', response.data);
-        setMockData(response.data);
+        setCustomers(response.data);
       })
       .catch((error) => {
         console.error("API Error:", error);
+        setError("Failed to load customers");
       });
   }, []);
   
-  // Handle adding a new Customer/signup
+  // Add new customer to database
   const addNewCustomer = async (customerData) => {
     try {
-        const response = await api.post('/customers', customerData);
-        setMockData(prev => [...prev, response.data]);
-        return response.data;
+      const response = await api.post('/customers', customerData);
+      setCustomers(prev => [...prev, response.data]);
+      setError(null);
+      return response.data;
     } catch (error) {
-        console.error('API Error:', error);
-        throw error;
+      console.error("Add customer error:", error);
+      setError("Failed to add customer");
+      throw error;
     }
   };
 
@@ -45,10 +48,15 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <Header onAddCustomer={addNewCustomer} onLogin={handleLogin} /> 
+    <div className="App">
+      <Header onAddCustomer={addNewCustomer} onLogin={handleLogin} />
       <section className='main-content'>
-        
+        {error && <p className="error">{error}</p>}
+        <ul>
+          {customers.map(customer => (
+            <li key={customer.id}>{customer.name}</li>
+          ))}
+        </ul>
       </section>
       <Footer />
     </div>

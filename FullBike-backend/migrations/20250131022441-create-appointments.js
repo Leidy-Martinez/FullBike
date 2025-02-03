@@ -20,15 +20,15 @@ await queryInterface.createTable('appointments', {
     },
     onDelete: 'SET NULL', // set customerId to null if customer is deleted
   },
-  mechanicId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'mechanics', 
-      key: 'id'           
-    },
-    onDelete: 'SET NULL', // set mechanicId to null if mechanic is deleted
-  },
+  // mechanicId: {
+  //   type: Sequelize.INTEGER,
+  //   allowNull: false,
+  //   references: {
+  //     model: 'mechanics', 
+  //     key: 'id'           
+  //   },
+  //   onDelete: 'SET NULL', // set mechanicId to null if mechanic is deleted
+  // },
   serviceId: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -50,11 +50,11 @@ await queryInterface.createTable('appointments', {
       }
     }
   },
-  status: {
-    type: Sequelize.ENUM('pending', 'confirmed', 'completed', 'cancelled'),
-    defaultValue: 'pending',
-    allowNull: false
-  },
+  // status: {
+  //   type: Sequelize.ENUM('pending', 'confirmed', 'completed', 'cancelled'),
+  //   defaultValue: 'pending',
+  //   allowNull: false
+  // },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false
