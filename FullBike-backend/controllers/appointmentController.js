@@ -1,4 +1,4 @@
-const { Appointment, Customer, Mechanic, Service } = require('../models');
+const { Appointment, Customer, Service } = require('../models');
 
 const appointmentController = {
     // Create appointment

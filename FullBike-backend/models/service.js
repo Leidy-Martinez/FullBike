@@ -10,7 +10,14 @@ const Service = sequelize.define("Service", {
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+            isIn: {
+                args: [["Bronze", "Silver", "Gold"]],
+                msg: "Service must be Bronze, Silver, or Gold"
+            }
+        }
     },
     description: {
         type: DataTypes.TEXT,
@@ -28,6 +35,7 @@ const Service = sequelize.define("Service", {
 // Define associations
 Service.associate = (models) => {
     Service.hasMany(models.Appointment, { foreignKey: 'serviceId' });
+    Service.hasMany(models.Customer, { foreignKey: 'serviceId'});
 };
 
 module.exports = Service;

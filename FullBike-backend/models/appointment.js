@@ -57,7 +57,7 @@ const Appointment = sequelize.define("Appointment", {
 // Define associations
 Appointment.associate = (models) => {
     Appointment.belongsTo(models.Customer, { foreignKey: 'customerId' });
-    Appointment.belongsTo(models.Mechanic, { foreignKey: 'mechanicId' });
+    // Appointment.belongsTo(models.Mechanic, { foreignKey: 'mechanicId' });
     Appointment.belongsTo(models.Service, { foreignKey: 'serviceId' });
 };
 

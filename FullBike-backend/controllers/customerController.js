@@ -1,3 +1,4 @@
+const { setServers } = require("dns");
 const { Customer, Service, Appointment} = require("../models");
 
 // Get all customers
@@ -86,50 +87,84 @@ const deleteCustomer = async (req, res) => {
     }
 };
 
-// Selected Service (Only One)
-const selectOneService = async (req, res) => {
+// Assign service to customer
+const assignServiceToCustomer = async (req, res) => {
     const { id } = req.params;
-    const { serviceId } = req.body;
+    const { name } = req.body;
 
-    try {
-        // 1. Find customer
+        try {
+        // Find customer
         const customer = await Customer.findByPk(id);
         if (!customer) {
             return res.status(404).json({ error: "Customer not found" });
         }
 
-        // 2. Check if service exists
-        const service = await Service.findByPk(serviceId);
-        if (!service) {
+        // Find service
+        const serviceName = await Service.findOne({ where: { name: name } });
+        if (!serviceName) {
             return res.status(404).json({ error: "Service not found" });
         }
 
-        // 3. Check if customer already has a service selected
-        const existingService = await customer.getServices();
-        if (existingService.length > 0) {
-            return res.status(400).json({ 
-                error: "Customer already has a service selected" 
-            });
-        }
+        // Assign the new service (overwriting any previous one)
+        customer.serviceId = serviceName.id;
+        await customer.save();
 
-        // 4. Set the selected service for customer
-        
-        const selectedService = await customer.createService({
-            attributes: ['id', 'name', 'description', 'price']
+        // Get updated customer with service details
+        const updatedCustomer = await Customer.findByPk(id, {
+            include: [{ model: Service, attributes: ["id", "name", "description", "price"] }]
         });
 
         res.status(200).json({
-            message: "Service selected successfully",
-            service: selectedService[0]
+            success: true,
+            message: "Service assigned successfully",
+            data: updatedCustomer
         });
 
     } catch (error) {
-        res.status(500).json({ 
-            error: "Failed to select service",
-            details: error.message 
-        });
+        res.status(500).json({ error: "Failed to assign service", details: error.message });
     }
 };
+
+// Create new appointment for assigned service
+
+const assignAppointmentToCustomer = async (req, res) => {
+    const { id } = req.params; // Customer ID
+    const { date } = req.body; // Appointment date
+
+    try {
+        // Find customer
+        const customer = await Customer.findByPk(id, {
+            include: [{ model: Service }]
+        });
+
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+
+        if (!customer.serviceId) {
+            return res.status(400).json({ error: "Customer does not have an assigned service." });
+        }
+
+        // Create appointment
+        const appointment = await Appointment.create({
+            appointmentDate: date,
+            customerId: customer.id,
+            serviceId: customer.serviceId
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "Appointment scheduled successfully",
+            data: appointment
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to assign appointment", details: error.message });
+    }
+};
+
+
+
 
 module.exports = {
     getAllCustomers,
@@ -138,5 +173,6 @@ module.exports = {
     getCustomerById,
     updateCustomer,
     deleteCustomer,
-    selectOneService
+    assignServiceToCustomer,
+    assignAppointmentToCustomer
 };

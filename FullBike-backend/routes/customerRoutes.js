@@ -3,7 +3,7 @@ const router = express.Router();
 const customerController = require('../controllers/customerController');
 const appointmentController = require('../controllers/appointmentController');
 const auth = require('../middleware/authMiddleware');
-const { validateId, validateCustomer, validateService } = require('../middleware/validateMiddleware');
+const { validateId, validateCustomer, validateServiceName} = require('../middleware/validateMiddleware');
 
 // Create new customer
 router.post('/', validateCustomer, customerController.createCustomer);
@@ -26,11 +26,11 @@ router.delete('/:id', validateId, customerController.deleteCustomer);
 // // Search customers
 // router.get('/search', auth, customerController.searchCustomers);
 
-// Select One Service
-router.post('/:id/serviceId', validateId, validateService, customerController.selectOneService);
+// // Assign service to customer
+router.post("/:id/service", validateId, validateServiceName, customerController.assignServiceToCustomer);
 
-// // Get customer appointments
-// router.get('/:id/appointments', validateId, customerController.getCustomerAppointments);
+// Get customer appointments
+router.post('/:id/appointment', validateId, customerController.assignAppointmentToCustomer);
 
 // // Get customer profile
 // router.get('/profile', auth, customerController.getProfile);

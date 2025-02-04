@@ -26,16 +26,24 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false
     },
+    serviceId: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'services',
+        key: 'id'
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    },
     createdAt: {
       type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      allowNull: false
     },
     updatedAt: {
       type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-  },
+      allowNull: false
+    }
   });
   },
 

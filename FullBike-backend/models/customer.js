@@ -38,6 +38,14 @@ const Customer = sequelize.define("Customer",  {
         validate: {
             notEmpty: true
         }
+    },
+    serviceId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'services',
+            key: 'id'
+        }
     }
 }, {
     tableName: 'customers',
@@ -47,6 +55,7 @@ const Customer = sequelize.define("Customer",  {
 // Define associations
 Customer.associate = (models) => {
     Customer.hasMany(models.Appointment, { foreignKey: 'customerId' });
+    Customer.belongsTo(models.Service, { foreignKey: 'serviceId'});
 };
 
 module.exports = Customer;

@@ -1,4 +1,4 @@
-const { Service } = require('../models');
+const { Service, Customer, Appointment } = require("../models");
 
 const getServices = async (req, res) => {
     try {
@@ -9,21 +9,20 @@ const getServices = async (req, res) => {
     }
 };
 
-const getServiceByName = async (req, res) => {
+const createService = async (req, res) => {
+    const { name, description, price } = req.body;
     try {
-        const service = await Service.findOne({ 
-            where: { name: req.params.name }
-        });
-        if (!service) {
-            return res.status(404).json({ error: "Service not found" });
+        const existingService = await Service.findOne({ where: { name } });
+        if (existingService) {
+            return res.status(400).json({ error: "Service name already exists" });
         }
-        res.status(200).json(service);
+        const service = await Service.create({ name, description, price });
+        res.status(201).json(service);
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch service" });
+        res.status(500).json({ error: "Failed to create service" });
     }
 };
 
-// Get service by ID 
 const getServiceById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -37,20 +36,14 @@ const getServiceById = async (req, res) => {
     }
 };
 
-const createService = async (req, res) => {
-    try {
-        const service = await Service.create(req.body);
-        res.status(201).json(service);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to create service" });
-    }
-};
-
 const updateService = async (req, res) => {
+    const { name } = req.params;
     try {
-        const service = await Service.update(req.body, {
-            where: { name: req.params.name }
-        });
+        const service = await Service.findOne({ where: { name } });
+        if (!service) {
+            return res.status(404).json({ error: "Service not found" });
+        }
+        await service.update(req.body);
         res.status(200).json(service);
     } catch (error) {
         res.status(500).json({ error: "Failed to update service" });
@@ -58,21 +51,42 @@ const updateService = async (req, res) => {
 };
 
 const deleteService = async (req, res) => {
+    const { id } = req.params;
     try {
-        await Service.destroy({
-            where: { id: req.params.id }
-        });
-        res.status(204).send();
+        const service = await Service.findByPk(id);
+        if (!service) {
+            return res.status(404).json({ error: "Service not found" });
+        }
+        await service.destroy();
+        res.status(200).json({ message: "Service deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: "Failed to delete service" });
     }
 };
 
+// const getServiceByName = async (req, res) => {
+//     const { name } = req.params;
+//     try {
+//         const service = await Service.findOne({ 
+//             where: { name },
+//             include: [{
+//                 model: Customer,
+//                 through: { attributes: [] }
+//             }]
+//         });
+//         if (!service) {
+//             return res.status(404).json({ error: "Service not found" });
+//         }
+//         res.status(200).json(service);
+//     } catch (error) {
+//         res.status(500).json({ error: "Failed to fetch service" });
+//     }
+// };
+
 module.exports = {
     getServices,
-    getServiceByName,
-    getServiceById,
     createService,
+    getServiceById,
     updateService,
     deleteService
 };

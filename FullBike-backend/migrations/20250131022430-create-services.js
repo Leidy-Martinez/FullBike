@@ -14,7 +14,14 @@ module.exports = {
 
       name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
+        validate: {
+          isIn: {
+            args: [["Bronze", "Silver", "Gold"]],
+            msg: "Service must be Bronze, Silver, or Gold"
+          }
+        }
       },
       description: {
         type: Sequelize.TEXT,
