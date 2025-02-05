@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import SignUp from './SignUp';
-import '../styles/Header.css';
 import Login from './Login';
+import '../styles/Header.css';
 
-function Header({ onAddCustomer , onLogin }) {
+function Header({ onToggleServiceSelection, onSignUp, onLogin }) {
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -15,7 +15,10 @@ function Header({ onAddCustomer , onLogin }) {
                     <button className="nav-button" onClick={() => console.log('Who We Are')}>
                         Who We Are
                     </button>
-                    <button className="nav-button" onClick={() => console.log('Services')}>
+                    <button
+                        className="nav-button"
+                        onClick={onToggleServiceSelection}
+                    >
                         Services
                     </button>
                     <button className="nav-button" onClick={() => console.log('Gallery')}>
@@ -31,21 +34,23 @@ function Header({ onAddCustomer , onLogin }) {
                     </button>
                 </div>
             </header>
-            <SignUp 
-                isOpen={isSignUpOpen} 
+            <SignUp
+                isOpen={isSignUpOpen}
                 onClose={() => setIsSignUpOpen(false)}
-                onSubmit={onAddCustomer}
+                onSubmit={onSignUp}
             />
             <Login
                 isOpen={isLoginOpen}
                 onClose={() => setIsLoginOpen(false)}
                 onSubmit={onLogin}
-            ></Login>
+            />
         </>
     );
 }
+
 Header.propTypes = {
-    onAddCustomer: PropTypes.func.isRequired,
+    onToggleServiceSelection: PropTypes.func.isRequired,
+    onSignUp: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired
 };
 

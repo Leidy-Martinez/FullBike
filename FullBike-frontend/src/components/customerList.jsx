@@ -10,6 +10,9 @@ function CustomersList({ customers }) {
             {customers.map(customer => (
                 <li key={customer.id}>
                     {customer.name}
+                    {customer.email}
+                    {customer.phoneNumber}
+                    {customer.password}
                 </li>
             ))}
         </ul>
@@ -20,7 +23,9 @@ CustomersList.propTypes = {
     customers: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
-        email: PropTypes.string
+        email: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired,
+        phoneNumber: PropTypes.string.isRequired,
     })).isRequired
 };
 

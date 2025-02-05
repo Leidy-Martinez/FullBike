@@ -36,7 +36,7 @@ const loginCustomer = async (req, res) => {
         }
         res.status(200).json({
             message: "Login successful",
-            // customer: customer
+            customer: customer
         });
     } catch (error) {
         res.status(500).json({ error: "Login failed" });

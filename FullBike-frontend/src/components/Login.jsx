@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Login.css';
-import { loginUser } from '../services/api';
+import { loginCustomer } from '../services/api';
 
 
 function Login({ isOpen, onClose, onSubmit }) {
@@ -19,15 +19,15 @@ function Login({ isOpen, onClose, onSubmit }) {
         onSubmit(loginData);
         onClose();
 
-        // Check credentials against loginUser
-        const user = loginUser.find(u => 
+        // Check credentials against loginCustomer
+        const currentCustomer = loginCustomer.find(u => 
             u.email === loginData.email && 
             u.password === loginData.password
         );
 
-        if (user) {
+        if (currentCustomer) {
             try {
-                await onSubmit(user);
+                await onSubmit(currentCustomer);
                 onClose();
             } catch {
                 setError('Login failed. Please try again.');

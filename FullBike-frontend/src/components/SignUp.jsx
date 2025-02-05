@@ -3,7 +3,7 @@ import '../styles/SignUp.css';
 
 function SignUp({ isOpen, onClose, onSubmit }) {
 
-    const handleSubmit = (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const newCustomer = {
@@ -23,7 +23,7 @@ function SignUp({ isOpen, onClose, onSubmit }) {
             <div className="modal-content">
                 <button className="close-button" onClick={onClose}>&times;</button>
                 <h2>Sign Up</h2>
-                <form onSubmit={handleSubmit} className="signup-form">
+                <form onSubmit={handleFormSubmit} className="signup-form">
                     <div className="form-group">
                         <label htmlFor="name">Full Name</label>
                         <input type="text" id="name" name="name" required />
