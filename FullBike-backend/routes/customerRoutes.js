@@ -29,9 +29,6 @@ router.delete('/:id', validateId, customerController.deleteCustomer);
 // // Assign service to customer
 router.post("/:id/service", validateId, validateServiceName, customerController.assignServiceToCustomer);
 
-// Get customer appointments
-router.post('/:id/appointment', validateId, customerController.assignAppointmentToCustomer);
-
 // // Get customer profile
 // router.get('/profile', auth, customerController.getProfile);
 

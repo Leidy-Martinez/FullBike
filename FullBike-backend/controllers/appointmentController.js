@@ -17,7 +17,7 @@ const appointmentController = {
             const appointments = await Appointment.findAll({
                 include: [
                     { model: Customer, attributes: ['name', 'email'] },
-                    { model: Mechanic, attributes: ['name'] },
+                    // { model: Mechanic, attributes: ['name'] },
                     { model: Service, attributes: ['name', 'price'] }
                 ]
             });
@@ -103,6 +103,43 @@ const appointmentController = {
         } catch (error) {
             res.status(500).json({ error: "Failed to fetch customer appointments" });
         }
+},
+
+// Create new appointment for assigned service
+assignAppointmentToCustomer: async (req, res) => {
+    const { id } = req.params; // Customer ID
+    const { date } = req.body; // Appointment date
+
+    try {
+        // Find customer
+        const customer = await Customer.findByPk(id, {
+            include: [{ model: Service }]
+        });
+
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+
+        if (!customer.serviceId) {
+            return res.status(400).json({ error: "Customer does not have an assigned service." });
+        }
+
+        // Create appointment
+        const appointment = await Appointment.create({
+            appointmentDate: date,
+            customerId: customer.id,
+            serviceId: customer.serviceId
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "Appointment scheduled successfully",
+            data: appointment
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: "Failed to assign appointment", details: error.message });
+    }
     }
 };
 

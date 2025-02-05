@@ -19,6 +19,9 @@ router.patch('/:id', validateId, appointmentController.updateAppointment);
 // Delete appointment
 router.delete('/:id', validateId, appointmentController.deleteAppointment);
 
+// Assign customer appointments
+router.post('/:id/schedule', validateId, appointmentController.assignAppointmentToCustomer);
+
 // // Get appointments by status
 // router.get('/status/:status', appointmentController.getAppointmentsByStatus);
 
