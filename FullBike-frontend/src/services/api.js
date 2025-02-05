@@ -39,9 +39,6 @@ export const assignServiceToCustomer = async (id, serviceName) => {
     return api.post(`/customers/${id}/service`, { name: serviceName });
 };
 
-export const assignAppointmentToCustomer = async (id, appointmentData) => {
-    return api.post(`/customers/${id}/appointment`, appointmentData);
-};
 
 // Service API
 export const getAllServices = async () => {
@@ -104,6 +101,10 @@ export const getAllAppointments = async () => {
 
 export const getAppointmentById = async (id) => {
     return api.get(`/appointments/${id}`);
+};
+
+export const assignAppointmentToCustomer = async (id, appointmentData) => {
+    return api.post(`/appointments/${id}/schedule`, appointmentData);
 };
 
 export const updateAppointment = async (id, appointmentData) => {

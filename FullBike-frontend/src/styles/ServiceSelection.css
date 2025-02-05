@@ -1,6 +1,8 @@
 .service-container {
     display: flex;
+    flex-direction: column; /* Change to column to allow button at bottom */
     justify-content: center;
+    align-items: center;
     gap: 1.5rem;
     padding: 1.5rem;
     background-color: #ebf8ff; 
@@ -9,14 +11,13 @@
 
 .service-selection {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row; /* Ensure items are in a row */
     justify-content: center;
     align-items: center;
     gap: 2rem;
     padding: 2rem;
     background-color: #f0f4f8;
-    min-height: 100vh;
-    /* flex-wrap: wrap;  */
+    flex-wrap: wrap; /* Allow wrapping to handle multiple rows */
 }
 
 .service-card {
@@ -45,4 +46,22 @@
     font-size: 1.25rem;
     font-weight: bold;
     color: #1e40af; /* Dark blue */
+}
+
+.appointment-button:hover {
+    background-color: #0e2294; /* Darker blue */
+}
+
+.appointment-button {
+    background-color: #1e40af; /* Darker blue */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 2rem;
+    align-self: center; /* Center the button */
 }
