@@ -6,7 +6,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Customer from './components/Customer';
 import Gallery from './components/Gallery';
-import { createCustomer, loginCustomer, getAllCustomers } from './services/api';
+import { loginCustomer, getAllCustomers } from './services/api';
 import './styles/App.css';
 
 function App() {
@@ -30,23 +30,6 @@ function App() {
         setError("Failed to load customers");
       });
   }, []);
-
-  // Add new customer to database/SignUp
-  const handleSignUp = async (customerData) => {
-    try {
-      const response = await createCustomer(customerData);
-      setCustomers(prev => [...prev, response.data]);
-      setCustomer(response.data);
-      setError(null);
-      setIsSignUpOpen(false); // Close signup modal on successful signup
-      console.log('SignUp successful:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Add customer error:", error);
-      setError("Failed to add customer");
-      throw error;
-    }
-  };
 
   // Handle Login
   const handleLogin = async (loginData) => {
@@ -97,19 +80,19 @@ function App() {
       <main className="main-content">
         {customer ? (
           <>
-            {/* <Customer customer={customer} />
+            <Customer customer={customer} />
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
-            )} */}
-            {/* {selectedService && (
+            )}
+            {selectedService && (
               <div className="selected-service">
                 <h2>Selected Service</h2>
                 <p>Name: {selectedService.name}</p>
                 <p>Description: {selectedService.description}</p>
                 <p>Price: ${selectedService.price}</p>
               </div>
-            )} */}
-            {/* {error && <div className="error-message">{error}</div>} */}
+            )}
+            {error && <div className="error-message">{error}</div>}
           </>
         ) : (
           <>
@@ -117,7 +100,7 @@ function App() {
               <ServiceSelection onServiceSelect={handleServiceSelect} />
             )}
             <Login onSubmit={handleLogin} onClose={() => setIsLoginOpen(false)} isOpen={isLoginOpen} />
-            <SignUp onSubmit={handleSignUp} onClose={() => setIsSignUpOpen(false)} isOpen={isSignUpOpen} />
+            <SignUp isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} />
           </>
         )}
         {showGallery && <Gallery />}

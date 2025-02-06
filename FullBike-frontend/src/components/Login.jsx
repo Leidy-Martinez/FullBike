@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import '../styles/Login.css';
 import { loginCustomer } from '../services/api';
 
-
-function Login({ isOpen, onClose, onSubmit }) {
+function Login({ isOpen, onClose}) {
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -16,24 +15,13 @@ function Login({ isOpen, onClose, onSubmit }) {
             password: formData.get('password')
         };
 
-        onSubmit(loginData);
-        onClose();
-
-        // Check credentials against loginCustomer
-        const currentCustomer = loginCustomer.find(u => 
-            u.email === loginData.email && 
-            u.password === loginData.password
-        );
-
-        if (currentCustomer) {
-            try {
-                await onSubmit(currentCustomer);
-                onClose();
-            } catch {
-                setError('Login failed. Please try again.');
-            }
-        } else {
-            setError('Invalid email or password');
+        try {
+            const response = await loginCustomer(loginData);
+            console.log('Login successful:', response.data);
+            onClose();
+        } catch (error) {
+            console.error("Error logging in:", error);
+            setError('Login failed. Please try again.');
         }
     };
 
@@ -44,7 +32,6 @@ function Login({ isOpen, onClose, onSubmit }) {
             <div className="modal-content">
                 <button className="close-button" onClick={onClose}>&times;</button>
                 <h2>Login</h2>
-                {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
@@ -54,6 +41,7 @@ function Login({ isOpen, onClose, onSubmit }) {
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" name="password" required />
                     </div>
+                    {error && <div className="error-message">{error}</div>}
                     <button type="submit" className="submit-button">Login</button>
                 </form>
             </div>
@@ -64,7 +52,6 @@ function Login({ isOpen, onClose, onSubmit }) {
 Login.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
 };
 
 export default Login;

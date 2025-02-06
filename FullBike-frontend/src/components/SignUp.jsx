@@ -1,19 +1,26 @@
 import PropTypes from 'prop-types';
 import '../styles/SignUp.css';
+import { createCustomer } from '../services/api';
 
-function SignUp({ isOpen, onClose, onSubmit }) {
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const newCustomer = {
+function SignUp({ isOpen, onClose }) {
+    
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const customerData = {
             name: formData.get('name'),
             email: formData.get('email'),
             phoneNumber: formData.get('phoneNumber'),
             password: formData.get('password')
         };
-        onSubmit(newCustomer);
-        onClose();
+
+        try {
+            const response = await createCustomer(customerData);
+            console.log('Customer created:', response.data);
+            onClose();
+        } catch (error) {
+            console.error('API Error:', error);
+        }
     };
 
     if (!isOpen) return null;
@@ -46,10 +53,10 @@ function SignUp({ isOpen, onClose, onSubmit }) {
         </div>
     );
 }
+
 SignUp.propTypes = {
     isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired
 };
 
 export default SignUp;

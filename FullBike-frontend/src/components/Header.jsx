@@ -4,7 +4,7 @@ import SignUp from './SignUp';
 import Login from './Login';
 import '../styles/Header.css';
 
-function Header({ onToggleServiceSelection, onToggleGallery, onSignUp, onLogin }) {
+function Header({ onToggleServiceSelection, onToggleGallery, onLogin }) {
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -39,7 +39,6 @@ function Header({ onToggleServiceSelection, onToggleGallery, onSignUp, onLogin }
             <SignUp
                 isOpen={isSignUpOpen}
                 onClose={() => setIsSignUpOpen(false)}
-                onSubmit={onSignUp}
             />
             <Login
                 isOpen={isLoginOpen}
@@ -53,7 +52,6 @@ function Header({ onToggleServiceSelection, onToggleGallery, onSignUp, onLogin }
 Header.propTypes = {
     onToggleServiceSelection: PropTypes.func.isRequired,
     onToggleGallery: PropTypes.func.isRequired,
-    onSignUp: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired
 };
 

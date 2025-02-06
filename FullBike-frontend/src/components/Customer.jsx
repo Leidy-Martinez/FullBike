@@ -1,9 +1,32 @@
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { getAllCustomers } from '../services/api';
 
+function Customer({ customerId }) {
+    const [customer, setCustomer] = useState(null);
+    const [error, setError] = useState(null);
 
-function Customer({ customer }) {
+    useEffect(() => {
+        const fetchCustomer = async () => {
+            try {
+                const response = await getAllCustomers();
+                const customerData = response.data.find(c => c.id === customerId);
+                setCustomer(customerData);
+            } catch (error) {
+                console.error("Error fetching customer:", error);
+                setError("Failed to load customer data");
+            }
+        };
+
+        fetchCustomer();
+    }, [customerId]);
+
+    if (error) {
+        return <div className="error-message">{error}</div>;
+    }
+
     if (!customer) {
-        return null;
+        return <div>Loading...</div>;
     }
 
     return (
@@ -17,11 +40,7 @@ function Customer({ customer }) {
 }
 
 Customer.propTypes = {
-    customer: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        email: PropTypes.string.isRequired,
-        phoneNumber: PropTypes.string.isRequired,
-    }).isRequired,
+    customerId: PropTypes.number.isRequired,
 };
 
 export default Customer;
