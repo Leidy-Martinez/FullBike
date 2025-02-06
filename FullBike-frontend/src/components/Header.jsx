@@ -4,7 +4,7 @@ import SignUp from './SignUp';
 import Login from './Login';
 import '../styles/Header.css';
 
-function Header({ onToggleServiceSelection, onSignUp, onLogin }) {
+function Header({ onToggleServiceSelection, onToggleGallery, onSignUp, onLogin }) {
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -21,7 +21,9 @@ function Header({ onToggleServiceSelection, onSignUp, onLogin }) {
                     >
                         Services
                     </button>
-                    <button className="nav-button" onClick={() => console.log('Gallery')}>
+                    <button 
+                    className="nav-button" 
+                    onClick={onToggleGallery}>
                         Gallery
                     </button>
                 </div>
@@ -50,6 +52,7 @@ function Header({ onToggleServiceSelection, onSignUp, onLogin }) {
 
 Header.propTypes = {
     onToggleServiceSelection: PropTypes.func.isRequired,
+    onToggleGallery: PropTypes.func.isRequired,
     onSignUp: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired
 };

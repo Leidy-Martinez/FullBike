@@ -41,9 +41,9 @@ export default function Calendar({ selectedService }) {
     const handleScheduleAppointment = async () => {
         if (selectedTime) {
             const newAppointment = {
-                title: `Appointment - ${selectedService.name}`,
-                start: `${selectedDate}T${selectedTime}:00`,
+                date: `${selectedDate}T${selectedTime}:00Z`,
             };
+            console.log(newAppointment);
 
             try {
                 // Save to backend

@@ -5,9 +5,9 @@ import ServiceSelection from './components/ServiceSelection';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Customer from './components/Customer';
+import Gallery from './components/Gallery';
 import { createCustomer, loginCustomer, getAllCustomers } from './services/api';
 import './styles/App.css';
-
 
 function App() {
   const [customers, setCustomers] = useState([]);
@@ -17,6 +17,7 @@ function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
 
   useEffect(() => {
     getAllCustomers()
@@ -78,6 +79,11 @@ function App() {
     setShowServiceSelection(false);
   };
 
+  const handleToggleGallery = () => {
+    setShowGallery(!showGallery);
+    setShowServiceSelection(false);
+  };
+
   return (
     <div className="App">
       <Header 
@@ -86,23 +92,24 @@ function App() {
         customer={customer} 
         onLogin={() => setIsLoginOpen(true)}
         onSignup={() => setIsSignUpOpen(true)}
+        onToggleGallery={handleToggleGallery}
       />
       <main className="main-content">
         {customer ? (
           <>
-            <Customer customer={customer} />
+            {/* <Customer customer={customer} />
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
-            )}
-            {selectedService && (
+            )} */}
+            {/* {selectedService && (
               <div className="selected-service">
                 <h2>Selected Service</h2>
                 <p>Name: {selectedService.name}</p>
                 <p>Description: {selectedService.description}</p>
                 <p>Price: ${selectedService.price}</p>
               </div>
-            )}
-            {error && <div className="error-message">{error}</div>}
+            )} */}
+            {/* {error && <div className="error-message">{error}</div>} */}
           </>
         ) : (
           <>
@@ -113,6 +120,7 @@ function App() {
             <SignUp onSubmit={handleSignUp} onClose={() => setIsSignUpOpen(false)} isOpen={isSignUpOpen} />
           </>
         )}
+        {showGallery && <Gallery />}
       </main>
       <Footer />
     </div>
