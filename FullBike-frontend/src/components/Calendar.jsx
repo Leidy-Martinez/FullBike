@@ -10,7 +10,7 @@ import '../styles/Calendar.css';
 
 Modal.setAppElement("#root");
 
-export default function Calendar({ customerId, selectedService }) {
+export default function Calendar({ selectedService }) {
     const [appointments, setAppointments] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -39,8 +39,6 @@ export default function Calendar({ customerId, selectedService }) {
         if (selectedTime) {
             const newAppointment = {
                 date: `${selectedDate}T${selectedTime}:00Z`,
-                customerId: customerId,
-                serviceId: selectedService.id
             };
             console.log(newAppointment);
 
@@ -85,9 +83,8 @@ export default function Calendar({ customerId, selectedService }) {
 }
 
 Calendar.propTypes = {
-    customerId: PropTypes.number.isRequired,
+    // customerId: PropTypes.number.isRequired,
     selectedService: PropTypes.shape({
-        id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
     }).isRequired,
 };

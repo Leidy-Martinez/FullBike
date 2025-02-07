@@ -31,8 +31,9 @@ function ServiceSelection({ onServiceSelect }) {
         if (storedCustomer) {
             try {
                 await assignServiceToCustomer(storedCustomer.id, service.name);
-                if (onServiceSelect) {
+                if (!onServiceSelect) {
                     onServiceSelect(service);
+                    console.log('Service assigned to customer:', storedCustomer);
                 }
             } catch (error) {
                 console.error("Error assigning service to customer:", error);

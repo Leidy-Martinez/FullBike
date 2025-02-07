@@ -19,10 +19,11 @@ function Login({ isOpen, onClose, onLogin }) {
             const response = await loginCustomer(loginData);
             const customer = response.data.customer;
             localStorage.setItem('customer', JSON.stringify(customer)); // Save customer object in local storage
-            onLogin(customer); // Pass the customer object to the parent component
+            onLogin(customer); // Pass customer object to the parent component
+            console.log('Login successful:', customer);
             onClose();
-        } catch (error) {
-            console.error("Error logging in:", error);
+            window.location.reload(); // Automatically refresh the page
+        } catch {
             setError('Login failed. Please try again.');
         }
     };

@@ -10,7 +10,7 @@ function CardContent({ title, description, price, isSelected, onClick }) {
             <h3 className="card-title">{title}</h3>
             <p className="card-description">{description}</p>
             <p className="card-price">${price}</p>
-            <button className="select-button" onClick={onClick}>
+            <button className="select-button">
                 {isSelected ? 'Selected' : 'Select'}
             </button>
         </div>
@@ -20,7 +20,7 @@ function CardContent({ title, description, price, isSelected, onClick }) {
 CardContent.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
+    price: PropTypes.string.isRequired,
     isSelected: PropTypes.bool,
     onClick: PropTypes.func
 };

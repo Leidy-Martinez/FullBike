@@ -6,6 +6,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Customer from './components/Customer';
 import Gallery from './components/Gallery';
+import Calendar from './components/Calendar';
 import { getAllCustomers } from './services/api';
 import './styles/App.css';
 
@@ -18,6 +19,8 @@ function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showCustomer, setShowCustomer] = useState(true);
 
   useEffect(() => {
     const storedCustomer = JSON.parse(localStorage.getItem('customer'));
@@ -42,27 +45,34 @@ function App() {
   const handleLogout = () => {
     setCustomer(null);
     localStorage.removeItem('customer'); // Remove customer object from local storage
+    setShowCustomer(false);
+    setShowServiceSelection(false);
+    setShowGallery(false);
+    setShowCalendar(false);
   };
 
   const handleToggleServiceSelection = () => {
     setShowServiceSelection(!showServiceSelection);
     setShowGallery(false); // Ensure gallery is hidden when toggling service selection
+    setShowCustomer(false); // Hide customer component
   };
 
   const handleServiceSelect = (service) => {
-    console.log('Selected service:', service);
     setSelectedService(service);
+    console.log('Selected service:', service);
     setShowServiceSelection(false);
   };
 
   const handleToggleGallery = () => {
     setShowGallery(!showGallery);
     setShowServiceSelection(false); // Ensure service selection is hidden when toggling gallery
+    setShowCustomer(false); // Hide customer component
   };
 
   const handleCustomerLogged = (customer) => {
     setCustomer(customer);
     setIsLoginOpen(false);
+    setShowCustomer(true); // Show customer component after login
     console.log('Login customer passed to app:', customer);
   };
 
@@ -77,23 +87,27 @@ function App() {
         onToggleGallery={handleToggleGallery}
       />
       <main className="main-content">
-        {customer ? (
+        {customer && showCustomer && (
+          <Customer customerId={customer.id} />
+        )}
+        {customer && (
           <>
-            <Customer customerId={customer.id} />
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
             )}
-            {selectedService && (
+            {/* {selectedService && (
               <div className="selected-service">
                 <h2>Selected Service</h2>
                 <p>Name: {selectedService.name}</p>
                 <p>Description: {selectedService.description}</p>
                 <p>Price: ${selectedService.price}</p>
               </div>
-            )}
+            )} */}
+            {showCalendar && <Calendar customerId={customer.id} selectedService={selectedService} />}
             {error && <div className="error-message">{error}</div>}
           </>
-        ) : (
+        )}
+        {!customer && (
           <>
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
