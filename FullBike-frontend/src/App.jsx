@@ -6,7 +6,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Customer from './components/Customer';
 import Gallery from './components/Gallery';
-import { loginCustomer, getAllCustomers } from './services/api';
+import { getAllCustomers } from './services/api';
 import './styles/App.css';
 
 function App() {
@@ -20,6 +20,13 @@ function App() {
   const [showGallery, setShowGallery] = useState(false);
 
   useEffect(() => {
+    const storedCustomer = JSON.parse(localStorage.getItem('customer'));
+    if (storedCustomer) {
+      setCustomer(storedCustomer);
+    }
+  }, []);
+
+  useEffect(() => {
     getAllCustomers()
       .then((response) => {
         console.log('Customers loaded:', response.data);
@@ -31,29 +38,15 @@ function App() {
       });
   }, []);
 
-  // Handle Login
-  const handleLogin = async (loginData) => {
-    try {
-      const response = await loginCustomer(loginData);
-      setCustomer(response.data);
-      setError(null);
-      setIsLoginOpen(false); // Close login modal on successful login
-      console.log('Login successful:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('API Error:', error);
-      setError("Login failed");
-      throw error;
-    }
-  };
-
   // Handle Logout
   const handleLogout = () => {
     setCustomer(null);
+    localStorage.removeItem('customer'); // Remove customer object from local storage
   };
 
   const handleToggleServiceSelection = () => {
     setShowServiceSelection(!showServiceSelection);
+    setShowGallery(false); // Ensure gallery is hidden when toggling service selection
   };
 
   const handleServiceSelect = (service) => {
@@ -64,7 +57,13 @@ function App() {
 
   const handleToggleGallery = () => {
     setShowGallery(!showGallery);
-    setShowServiceSelection(false);
+    setShowServiceSelection(false); // Ensure service selection is hidden when toggling gallery
+  };
+
+  const handleCustomerLogged = (customer) => {
+    setCustomer(customer);
+    setIsLoginOpen(false);
+    console.log('Login customer passed to app:', customer);
   };
 
   return (
@@ -80,7 +79,7 @@ function App() {
       <main className="main-content">
         {customer ? (
           <>
-            <Customer customer={customer} />
+            <Customer customerId={customer.id} />
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
             )}
@@ -99,7 +98,7 @@ function App() {
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
             )}
-            <Login onSubmit={handleLogin} onClose={() => setIsLoginOpen(false)} isOpen={isLoginOpen} />
+            <Login onLogin={handleCustomerLogged} onClose={() => setIsLoginOpen(false)} isOpen={isLoginOpen} />
             <SignUp isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} />
           </>
         )}

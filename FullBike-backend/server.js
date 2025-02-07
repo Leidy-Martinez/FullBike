@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const {corsOptions}=require('./middleware/cors')
 const { connectDB } = require('./config/database');
 const routes = require('./routes');
 
@@ -10,9 +11,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(morgan('dev'));
-app.use(cors({
-    origin: 'http://localhost:5173'
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes

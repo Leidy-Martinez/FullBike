@@ -6,14 +6,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { getAllAppointments, createAppointment } from '../services/api';
 import Modal from "react-modal";
-// import "@fullcalendar/common/main.css";
-// import "@fullcalendar/daygrid/main.css";
-// import "@fullcalendar/timegrid/main.css";
 import '../styles/Calendar.css';
 
 Modal.setAppElement("#root");
 
-export default function Calendar({ selectedService }) {
+export default function Calendar({ customerId, selectedService }) {
     const [appointments, setAppointments] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
@@ -42,6 +39,8 @@ export default function Calendar({ selectedService }) {
         if (selectedTime) {
             const newAppointment = {
                 date: `${selectedDate}T${selectedTime}:00Z`,
+                customerId: customerId,
+                serviceId: selectedService.id
             };
             console.log(newAppointment);
 
@@ -54,12 +53,6 @@ export default function Calendar({ selectedService }) {
                 console.error("Error creating appointment:", error);
             }
         }
-    };
-
-    Calendar.propTypes = {
-        selectedService: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-        }).isRequired,
     };
 
     return (
@@ -90,5 +83,13 @@ export default function Calendar({ selectedService }) {
         </div>
     );
 }
+
+Calendar.propTypes = {
+    customerId: PropTypes.number.isRequired,
+    selectedService: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+    }).isRequired,
+};
 
 

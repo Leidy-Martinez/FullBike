@@ -6,4 +6,5 @@ const corsOptions = {
     credentials: true
 };
 
-module.exports = cors(corsOptions);
+module.exports = {corsOptions}
+// module.exports = cors({corsOptions});
