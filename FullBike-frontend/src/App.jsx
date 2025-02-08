@@ -95,14 +95,14 @@ function App() {
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
             )}
-            {/* {selectedService && (
+            {selectedService && (
               <div className="selected-service">
                 <h2>Selected Service</h2>
                 <p>Name: {selectedService.name}</p>
                 <p>Description: {selectedService.description}</p>
                 <p>Price: ${selectedService.price}</p>
               </div>
-            )} */}
+            )}
             {showCalendar && <Calendar customerId={customer.id} selectedService={selectedService} />}
             {error && <div className="error-message">{error}</div>}
           </>

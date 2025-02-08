@@ -49,6 +49,7 @@ export default function Calendar({ selectedService }) {
                 setAppointments([...appointments, response.data]);
                 setModalIsOpen(false);
                 console.log('Appointment scheduled:', response.data);
+                alert("Appointment scheduled successfully");
             } catch (error) {
                 console.error("Error creating appointment:", error);
             }

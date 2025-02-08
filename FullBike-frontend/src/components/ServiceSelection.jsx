@@ -44,7 +44,7 @@ function ServiceSelection({ onServiceSelect }) {
                 console.error("Error assigning service to customer:", error);
             }
         } else {
-            console.error("Customer not found or service name is undefined");
+            alert("Please log in to select a service.");
         }
     };
 
