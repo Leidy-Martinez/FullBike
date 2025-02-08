@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { getAllAppointments, createAppointment } from '../services/api';
+import { getAllAppointments, assignAppointmentToCustomer } from '../services/api';
 import Modal from "react-modal";
 import '../styles/Calendar.css';
 
@@ -44,9 +44,11 @@ export default function Calendar({ selectedService }) {
 
             try {
                 // Save to backend
-                const response = await createAppointment(newAppointment);
+                const storedCustomer = JSON.parse(localStorage.getItem('customer'));
+                const response = await assignAppointmentToCustomer(storedCustomer.id ,newAppointment);
                 setAppointments([...appointments, response.data]);
                 setModalIsOpen(false);
+                console.log('Appointment scheduled:', response.data);
             } catch (error) {
                 console.error("Error creating appointment:", error);
             }

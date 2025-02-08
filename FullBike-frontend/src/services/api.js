@@ -40,6 +40,7 @@ export const assignServiceToCustomer = async (id, serviceName) => {
 };
 
 
+
 // Service API
 export const getAllServices = async () => {
     return api.get('/services');

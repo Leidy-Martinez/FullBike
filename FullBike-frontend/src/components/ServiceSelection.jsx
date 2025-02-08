@@ -26,18 +26,25 @@ function ServiceSelection({ onServiceSelect }) {
     }, []);
 
     const handleSelect = async (service) => {
-        setSelectedService(service);
+        console.log('Selected service:', service);
         const storedCustomer = JSON.parse(localStorage.getItem('customer'));
-        if (storedCustomer) {
+        console.log('Stored customer:', storedCustomer);
+        if (storedCustomer && service.name) {
             try {
-                await assignServiceToCustomer(storedCustomer.id, service.name);
+                const serviceName = service.name.toLowerCase();
+                console.log('Service Name:', serviceName);
+                const response = await assignServiceToCustomer(storedCustomer.id, serviceName);
+                setSelectedService(service);
+                console.log('Customer ID:', storedCustomer.id);
                 if (!onServiceSelect) {
                     onServiceSelect(service);
-                    console.log('Service assigned to customer:', storedCustomer);
+                    console.log('Service assigned to customer:', response.data);
                 }
             } catch (error) {
                 console.error("Error assigning service to customer:", error);
             }
+        } else {
+            console.error("Customer not found or service name is undefined");
         }
     };
 
@@ -47,7 +54,7 @@ function ServiceSelection({ onServiceSelect }) {
 
     return (
         <div className="service-container">
-            <div className="service-selection"> 
+            <div className="service-selection">
                 {services.map((service) => (
                     <Card key={service.id} className="service-card">
                         <CardContent
