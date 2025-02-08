@@ -4,7 +4,7 @@ import SignUp from './SignUp';
 import Login from './Login';
 import '../styles/Header.css';
 
-function Header({ onToggleServiceSelection, onToggleGallery, onLogin, onSignup, customer, onLogout }) {
+function Header({ onToggleServiceSelection, onToggleGallery, onLogin, onSignup, customer, onLogout, onToggleIntroduction }) {
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -12,7 +12,7 @@ function Header({ onToggleServiceSelection, onToggleGallery, onLogin, onSignup, 
         <>
             <header className="header">
                 <div className="nav-container main">
-                    <button className="nav-button" onClick={() => console.log('Who We Are')}>
+                    <button className="nav-button" onClick={() => {onToggleIntroduction();}}>
                         Who We Are
                     </button>
                     <button className="nav-button" onClick={onToggleServiceSelection}>
@@ -59,6 +59,7 @@ function Header({ onToggleServiceSelection, onToggleGallery, onLogin, onSignup, 
 Header.propTypes = {
     onToggleServiceSelection: PropTypes.func.isRequired,
     onToggleGallery: PropTypes.func.isRequired,
+    onToggleIntroduction: PropTypes.func.isRequired,
     onLogin: PropTypes.func.isRequired,
     onSignup: PropTypes.func.isRequired,
     customer: PropTypes.object,

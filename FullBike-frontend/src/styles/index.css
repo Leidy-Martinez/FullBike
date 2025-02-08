@@ -12,7 +12,7 @@ body {
 }
 
 body {
-    background-image: url(../assets/images/Background_Fullbike.PNG);
+    /* background-image: url(../assets/images/Background_Fullbike.PNG); */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

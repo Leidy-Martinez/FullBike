@@ -7,6 +7,7 @@ import SignUp from './components/SignUp';
 import Customer from './components/Customer';
 import Gallery from './components/Gallery';
 import Calendar from './components/Calendar';
+import Introduction from './components/Introduction';
 import { getAllCustomers } from './services/api';
 import './styles/App.css';
 
@@ -21,6 +22,7 @@ function App() {
   const [showGallery, setShowGallery] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showCustomer, setShowCustomer] = useState(true);
+  const [showIntroduction, setShowIntroduction] = useState(false);
 
   useEffect(() => {
     const storedCustomer = JSON.parse(localStorage.getItem('customer'));
@@ -49,24 +51,26 @@ function App() {
     setShowServiceSelection(false);
     setShowGallery(false);
     setShowCalendar(false);
+    setShowIntroduction(false);
   };
 
   const handleToggleServiceSelection = () => {
     setShowServiceSelection(!showServiceSelection);
     setShowGallery(false); // Ensure gallery is hidden when toggling service selection
     setShowCustomer(false); // Hide customer component
+    setShowIntroduction(false); // Hide introduction component
   };
 
   const handleServiceSelect = (service) => {
-    setSelectedService(service);
     console.log('Selected service:', service);
-    setShowServiceSelection(false);
+    setSelectedService(service);
   };
 
   const handleToggleGallery = () => {
     setShowGallery(!showGallery);
     setShowServiceSelection(false); // Ensure service selection is hidden when toggling gallery
     setShowCustomer(false); // Hide customer component
+    setShowIntroduction(false); // Hide introduction component
   };
 
   const handleCustomerLogged = (customer) => {
@@ -74,6 +78,13 @@ function App() {
     setIsLoginOpen(false);
     setShowCustomer(true); // Show customer component after login
     console.log('Login customer passed to app:', customer);
+  };
+
+  const handleToggleIntroduction = () => {
+    setShowIntroduction(!showIntroduction);
+    setShowServiceSelection(false); // Ensure service selection is hidden when toggling introduction
+    setShowGallery(false); // Ensure gallery is hidden when toggling introduction
+    setShowCustomer(false); // Hide customer component
   };
 
   return (
@@ -85,8 +96,10 @@ function App() {
         onLogin={() => setIsLoginOpen(true)}
         onSignup={() => setIsSignUpOpen(true)}
         onToggleGallery={handleToggleGallery}
+        onToggleIntroduction={handleToggleIntroduction}
       />
       <main className="main-content">
+        {showIntroduction && <Introduction />}
         {customer && showCustomer && (
           <Customer customerId={customer.id} />
         )}
@@ -109,6 +122,8 @@ function App() {
         )}
         {!customer && (
           <>
+            {/* <h1>Welcome to FullBike</h1>
+            <p>Please log in to access your account and services.</p> */}
             {showServiceSelection && (
               <ServiceSelection onServiceSelect={handleServiceSelect} />
             )}
