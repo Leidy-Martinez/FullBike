@@ -8,10 +8,10 @@ function Footer() {
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
                     <FaFacebook className="social-icon" />
                 </a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://instagram.com/fullbike.pr" target="_blank" rel="noopener noreferrer">
                     <FaInstagram className="social-icon" />
                 </a>
-                <a href="https://strava.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.strava.com/athletes/102907093" target="_blank" rel="noopener noreferrer">
                     <FaStrava className="social-icon" />
                 </a>
             </div>
