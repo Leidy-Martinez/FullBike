@@ -125,6 +125,23 @@ const assignServiceToCustomer = async (req, res) => {
     }
 };
 
+// // Customer Profile
+
+// const getProfile = async (req, res) => {
+//     const { id } = req.customer;
+//     try {
+//         const customer = await Customer.findByPk(id, {
+//             include: [{ model: Service, attributes: ["id", "name", "description", "price"] }]
+//         });
+//         if (!customer) {
+//             return res.status(404).json({ error: "Customer not found" });
+//         }
+//         res.status(200).json(customer);
+//     } catch (error) {
+//         res.status(500).json({ error: "Failed to fetch customer" });
+//     }
+// };
+
 
 
 

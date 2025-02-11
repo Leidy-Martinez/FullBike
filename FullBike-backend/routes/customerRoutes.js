@@ -30,7 +30,7 @@ router.delete('/:id', validateId, customerController.deleteCustomer);
 router.post("/:id/service", validateId, validateServiceName, customerController.assignServiceToCustomer);
 
 // // Get customer profile
-// router.get('/profile', auth, customerController.getProfile);
+// router.get('/:id/profile', customerController.getProfile);
 
 // // Update password
 // router.post('/reset-password', auth, customerController.resetPassword);

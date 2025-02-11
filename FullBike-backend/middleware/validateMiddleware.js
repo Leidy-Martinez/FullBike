@@ -96,7 +96,7 @@ const validateMechanic = (req, res, next) => {
 
 const validateAppointment = async (req, res, next) => {
     const schema = Joi.object({
-        // customerId: Joi.number().integer().positive().required(),
+        customerId: Joi.number().integer().positive().required(),
         // mechanicId: Joi.number().integer().positive().required(),
         serviceId: Joi.number().integer().positive().required(),
         appointmentDate: Joi.date().required(),
