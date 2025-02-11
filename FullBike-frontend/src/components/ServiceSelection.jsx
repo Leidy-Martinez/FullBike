@@ -55,9 +55,9 @@ function ServiceSelection({ onServiceSelect }) {
     }, []);
 
     const handleSelect = async (service) => {
-        console.log('Selected service:', service);
+        // console.log('Selected service:', service);
         const storedCustomer = JSON.parse(localStorage.getItem('customer'));
-        console.log('Stored customer:', storedCustomer);
+        // console.log('Stored customer:', storedCustomer);
 
         if (storedCustomer && service.name) {
             try {

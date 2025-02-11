@@ -34,7 +34,6 @@ function App() {
   useEffect(() => {
     getAllCustomers()
       .then((response) => {
-        console.log('Customers loaded:', response.data);
         setCustomers(response.data);
       })
       .catch((error) => {

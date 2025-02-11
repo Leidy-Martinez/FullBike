@@ -36,7 +36,6 @@ function Customer({ customerId }) {
             try {
                 const response = await getAllAppointments();
                 const customerAppointments = response.data.filter(appointment => appointment.customerId === customerId);
-                console.log( "Customer Appointments:",customerAppointments);
                 setAppointments(customerAppointments);
             } catch (error) {
                 console.error("Error fetching appointments:", error);
