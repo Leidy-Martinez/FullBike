@@ -39,6 +39,11 @@ export const assignServiceToCustomer = async (id, serviceName) => {
     return api.post(`/customers/${id}/service`, { name: serviceName });
 };
 
+export const getCustomerProfile = async () => {
+    return api.get('/customers/profile');
+};
+
+
 
 
 // Service API

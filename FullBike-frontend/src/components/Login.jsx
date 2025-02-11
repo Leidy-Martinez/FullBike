@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Login.css';
 import { loginCustomer } from '../services/api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login({ isOpen, onClose, onLogin }) {
-    const [error, setError] = useState(null);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -21,10 +20,13 @@ function Login({ isOpen, onClose, onLogin }) {
             localStorage.setItem('customer', JSON.stringify(customer)); // Save customer object in local storage
             onLogin(customer); // Pass customer object to the parent component
             console.log('Login successful:', customer);
-            onClose();
-            window.location.reload(); // Automatically refresh the page
+            toast.success('Login successful! Redirecting...');
+            setTimeout(() => {
+                onClose();
+                window.location.reload(); // Automatically refresh the page
+            }, 2000);
         } catch {
-            setError('Login failed. Please try again.');
+            toast.error('Login failed. Please check your credentials and try again.');
         }
     };
 
@@ -32,6 +34,8 @@ function Login({ isOpen, onClose, onLogin }) {
 
     return (
         <div className="modal-overlay">
+            <ToastContainer position="top-right" autoClose={3000} />
+            
             <div className="modal-content">
                 <button className="close-button" onClick={onClose}>&times;</button>
                 <h2>Login</h2>
@@ -44,7 +48,6 @@ function Login({ isOpen, onClose, onLogin }) {
                         <label htmlFor="password">Password</label>
                         <input type="password" id="password" name="password" required />
                     </div>
-                    {error && <div className="error-message">{error}</div>}
                     <button type="submit" className="submit-button">Login</button>
                 </form>
             </div>

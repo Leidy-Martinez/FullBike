@@ -97,6 +97,7 @@ function App() {
         onSignup={() => setIsSignUpOpen(true)}
         onToggleGallery={handleToggleGallery}
         onToggleIntroduction={handleToggleIntroduction}
+        onProfile={() => setShowCustomer(true)}
       />
       <main className="main-content">
         {showIntroduction && <Introduction />}

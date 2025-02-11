@@ -1,3 +1,66 @@
+.card, .service-card {
+    width: 16rem;
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card {
+    border: 2px solid #2563eb; /* Blue border */
+}
+
+.service-card {
+    border: 1px solid #1a73e8;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-image, .service-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.select-button, .appointment-button {
+    background-color: #2563eb; /* Blue */
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 1rem;
+}
+
+.select-button:hover, .appointment-button:hover {
+    background-color: #1e40af; /* Darker blue */
+}
+
+.selected .select-button {
+    background-color: #1e40af; /* Darker blue */
+}
+
+.appointment-button {
+    margin-top: 2rem;
+    align-self: center; /* Center the button */
+}
+
+/* Service Selection Styles */
 .service-container {
     display: flex;
     flex-direction: column; /* Change to column to allow button at bottom */
@@ -20,48 +83,8 @@
     flex-wrap: wrap; /* Allow wrapping to handle multiple rows */
 }
 
-.service-card {
-    width: 16rem;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    border: 1px solid #1a73e8;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-5px);
-}
-
-.service-image {
-    width: 100%;
-    height: 10rem;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-}
-
 .service-title {
     font-size: 1.25rem;
     font-weight: bold;
     color: #1e40af; /* Dark blue */
-}
-
-.appointment-button:hover {
-    background-color: #0e2294; /* Darker blue */
-}
-
-.appointment-button {
-    background-color: #1e40af; /* Darker blue */
-    color: white;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 2rem;
-    align-self: center; /* Center the button */
 }

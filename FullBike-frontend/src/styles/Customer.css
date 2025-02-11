@@ -1,42 +1,90 @@
 .customer-info {
-    background-color: #fff; /* White background */
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Black shadow */
+    width: 90%;
+    margin: auto;
     padding: 20px;
-    max-width: 600px;
-    margin: 20px auto;
-    text-align: left;
+    background: black;
+    color: #fff;
+    border: 4px solid #adecfe;
+    border-radius: 10px;
+    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+    font-family: 'Arial', sans-serif;
+    position: relative;
 }
 
 .customer-info h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #000; /* Black text */
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
 }
 
 .customer-info p {
-    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.customer-info strong {
+    color: #adecfe;
+}
+
+.customer-info label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #adecfe;
+}
+
+.customer-info input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 2px solid #adecfe;
+    background: #003;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.customer-info button {
+    background: #adecfe;
+    color: #0b0000;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.customer-info button:hover {
+    background: #adecfe;
+}
+
+.loading-message, .error-message {
+    text-align: center;
     font-size: 18px;
-    color: #000; /* Black text */
-}
-
-.customer-info p strong {
-    color: #000; /* Black text */
-}
-
-.error-message {
+    font-weight: bold;
     color: red;
-    text-align: center;
-    margin-top: 20px;
 }
 
-.loading-message {
-    text-align: center;
+/* Appointment section */
+.customer-info h3 {
     margin-top: 20px;
-    font-size: 18px;
-    color: #000; /* Black text */
+    text-align: center;
+    color: #adecfe;
 }
 
-.customer-info .blue-text {
-    color: #007BFF; /* Blue text */
+.customer-info div div div {
+    background: #003;
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 5px solid #adecfe;
+    border-radius: 5px;
 }
+
+.customer-info div div p {
+    margin: 5px 0;
+}
+
+
