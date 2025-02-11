@@ -16,21 +16,44 @@
     align-items: center;
 }
 
-.select-button {
-    background-color: #2563eb; /* Blue */
-    color: white;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+.card-title {
+    margin-top: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.card-description {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.card-description ul {
+    margin-bottom: 5px;
+    list-style-type: disc;
+}
+
+.card-price {
+    font-size: 18px;
     font-weight: bold;
+    color: #007BFF;
+}
+
+.select-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .select-button:hover {
-    background-color: #1e40af; /* Darker blue */
+    background-color: #0056b3;
 }
 
 .selected .select-button {

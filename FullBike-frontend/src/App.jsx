@@ -87,6 +87,14 @@ function App() {
     setShowCustomer(false); // Hide customer component
   };
 
+  const handleToggleProfile = () => {
+    setShowCustomer(!showCustomer);
+    setShowServiceSelection(false); // Ensure service selection is hidden when toggling profile
+    setShowGallery(false); // Ensure gallery is hidden when toggling profile
+    setShowIntroduction(false); // Hide introduction component
+  };
+  
+
   return (
     <div className="App">
       <Header 
@@ -97,7 +105,8 @@ function App() {
         onSignup={() => setIsSignUpOpen(true)}
         onToggleGallery={handleToggleGallery}
         onToggleIntroduction={handleToggleIntroduction}
-        onProfile={() => setShowCustomer(true)}
+        onProfile={() => {handleToggleProfile();}
+        }
       />
       <main className="main-content">
         {showIntroduction && <Introduction />}

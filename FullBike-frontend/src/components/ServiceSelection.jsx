@@ -15,6 +15,31 @@ function ServiceSelection({ onServiceSelect }) {
     const [selectedService, setSelectedService] = useState(null);
     const [showCalendar, setShowCalendar] = useState(false);
 
+    const serviceDescriptions = {
+        bronze: [
+            "Brake and gear adjustments for smooth operation.",
+            "Chain lubrication and drivetrain inspection.",
+            "Tire pressure check and inflation.",
+            "Basic safety check of bolts and components.",
+            "Light cleaning of frame and key components."
+        ],
+        silver: [
+            "Includes all Bronze Package services.",
+            "Full drivetrain cleaning and lubrication.",
+            "Wheel truing to correct minor wobbles.",
+            "Bottom bracket and headset inspection.",
+            "Brake pad wear check and minor alignment."
+        ],
+        gold: [
+            "Includes all Silver Package services.",
+            "Complete bike disassembly and deep cleaning.",
+            "Bearing lubrication and adjustments for hubs, bottom bracket, and headset.",
+            "Brake and gear cable replacement (if needed).",
+            "Full safety inspection with detailed performance report."
+        ]
+    };
+    
+
     useEffect(() => {
         const fetchServices = async () => {
             try {
@@ -70,11 +95,12 @@ function ServiceSelection({ onServiceSelect }) {
             <ToastContainer position="top-right" autoClose={3000} />
             
             <div className="service-selection">
+                <h1>Full-Bike Services</h1>
                 {services.map((service) => (
                     <Card key={service.id} className="service-card">
                         <CardContent
-                            title={service.name}
-                            description={service.description}
+                            title={service.name.toUpperCase()}
+                            description={serviceDescriptions[service.name.toLowerCase()] || [service.description]}
                             price={service.price}
                             isSelected={selectedService?.id === service.id}
                             onClick={() => handleSelect(service)}
