@@ -10,7 +10,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'production') {
+    app.use(morgan('combined'));
+} else {
+    app.use(morgan('dev'));
+}
 app.use(cors(corsOptions));
 app.use(express.json());
 

@@ -19,7 +19,7 @@ module.exports = {
         dialect: 'postgres'
     },
     production: {
-        url: process.env.DB_URI,
+        url: process.env.DATABASE_URL,
         // username: process.env.DB_USER,
         // database: process.env.DB_NAME,
         // host: process.env.DB_HOST,
