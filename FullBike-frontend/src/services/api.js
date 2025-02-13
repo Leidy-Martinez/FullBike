@@ -59,8 +59,8 @@ export const createService = async (serviceData) => {
     return api.post('/services', serviceData);
 };
 
-export const updateService = async (name, serviceData) => {
-    return api.patch(`/services/${name}`, serviceData);
+export const updateService = async (id, serviceData) => {
+    return api.put(`/services/${id}`, serviceData);
 };
 
 export const deleteService = async (id) => {

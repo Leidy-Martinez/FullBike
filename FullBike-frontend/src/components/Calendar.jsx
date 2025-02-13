@@ -40,7 +40,7 @@ export default function Calendar({ selectedService }) {
             const newAppointment = {
                 date: `${selectedDate}T${selectedTime}:00Z`,
             };
-            console.log("Appointment Date",newAppointment.toLocaleString());
+            console.log("Appointment in Local Date",newAppointment.toLocaleString());
 
             try {
                 // Save to backend

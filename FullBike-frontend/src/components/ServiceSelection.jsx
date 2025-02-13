@@ -55,17 +55,18 @@ function ServiceSelection({ onServiceSelect }) {
     }, []);
 
     const handleSelect = async (service) => {
-        // console.log('Selected service:', service);
+        console.log('Selected service:', service);
         const storedCustomer = JSON.parse(localStorage.getItem('customer'));
-        // console.log('Stored customer:', storedCustomer);
+        console.log('Stored customer:', storedCustomer);
 
         if (storedCustomer && service.name) {
             try {
                 const serviceName = service.name.toLowerCase();
                 console.log('Service Name:', serviceName);
+                console.log('Customer ID:', storedCustomer.id);
                 const response = await assignServiceToCustomer(storedCustomer.id, serviceName);
                 setSelectedService(service);
-                console.log('Customer ID:', storedCustomer.id);
+        
 
                 if (!onServiceSelect) {
                     onServiceSelect(service);

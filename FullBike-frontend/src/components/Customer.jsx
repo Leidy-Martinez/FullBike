@@ -82,7 +82,7 @@ function Customer({ customerId }) {
     return (
         <div className="customer-info">
             <ToastContainer position="top-right" autoClose={3000} />
-            <h2>{isEditing? "Edit Profile" : `${customer.name}'s Profile`}</h2>
+            <h2>{isEditing ? "Edit Profile" : `${customer.name}'s Profile`}</h2>
             {isEditing ? (
                 <div>
                     <label htmlFor="name">Name:</label>
@@ -102,12 +102,12 @@ function Customer({ customerId }) {
                     <p><strong>Email:</strong> {customer.email}</p>
                     <p><strong>Phone Number:</strong> {customer.phoneNumber}</p>
                     
-                    <h3> Uncoming Appointments</h3>
+                    <h3>Upcoming Appointments</h3>
                     <div>
                         {customerAppointments.map(appointment => (
                             <div key={appointment.id}>
                                 <p><strong>Service:</strong> {appointment.Service.name}</p>
-                                <p><strong>Date:</strong> {new Date(appointment.appointmentDate).toLocaleString()}</p>
+                                <p><strong>Date:</strong> {new Date(appointment.appointmentDate).toLocaleString('en-US', { timeZone: 'UTC' })}</p>
                             </div>
                         ))}
                     </div>
