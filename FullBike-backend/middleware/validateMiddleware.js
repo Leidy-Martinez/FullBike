@@ -1,12 +1,13 @@
 const Joi = require('joi');
 
 const validateId = (req, res, next) => {
+    const id = req.params.id ? parseInt(req.params.id) : NaN;
     const schema = Joi.object({
         id: Joi.number().integer().positive().required()
     });
 
-    const { error } = schema.validate({ id: parseInt(req.params.id) });
-    
+    const { error } = schema.validate({ id });
+
     if (error) {
         return res.status(400).json({
             success: false,
@@ -113,10 +114,28 @@ const validateAppointment = async (req, res, next) => {
     next();
 }
 
+// Validate service update
+
+const validateServiceUpdate = (req, res, next) => {
+    const serviceUpdateSchema = Joi.object({
+        name: Joi.string().trim().optional(),
+        price: Joi.number().positive().precision(2).optional(),
+        description: Joi.string().optional(), 
+    });
+
+    const { error } = serviceUpdateSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+    }
+
+    next(); 
+};
+
 module.exports = { 
     validateId,
     validateServiceName,
     validateCustomer,
     validateMechanic,
-    validateAppointment
+    validateAppointment,
+    validateServiceUpdate
 };

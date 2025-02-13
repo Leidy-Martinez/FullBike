@@ -13,10 +13,8 @@ const Service = sequelize.define("Service", {
         allowNull: false,
         unique: true,
         validate: {
-            isIn: {
-                args: [["Bronze", "Silver", "Gold"]],
-                msg: "Service must be Bronze, Silver, or Gold"
-            }
+            notEmpty: true,
+            len: [2, 50]
         }
     },
     description: {

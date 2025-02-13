@@ -100,7 +100,7 @@ const assignServiceToCustomer = async (req, res) => {
         }
 
         // Find service
-        const serviceName = await Service.findOne({ where: { name: name } });
+        const serviceName = await Service.findOne({ where: { name: name.toLowerCase() } });
         if (!serviceName) {
             return res.status(404).json({ error: "Service not found" });
         }

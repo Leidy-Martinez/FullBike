@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const serviceController = require('../controllers/serviceController');
 const auth = require('../middleware/authMiddleware');
-const { validateId } = require('../middleware/validateMiddleware');
+const { validateId, validateServiceUpdate} = require('../middleware/validateMiddleware');
 
 // Get all services
 router.get('/', serviceController.getServices);
@@ -17,7 +17,7 @@ router.get('/:id', validateId, serviceController.getServiceById);
 router.post('/', serviceController.createService);
 
 // Update service (admin only)
-router.patch('/:name', serviceController.updateService);
+router.put('/:id', validateId, validateServiceUpdate, serviceController.updateService);
 
 // Delete service (admin only)
 
